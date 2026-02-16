@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design and Delivery</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+    :root {
+      --color-primary: #0f172a;
+      --color-secondary: #1e293b;
+      --color-accent: #3b82f6;
+      --color-accent-light: #60a5fa;
+      --color-success: #10b981;
+      --color-warning: #f59e0b;
+      --color-danger: #ef4444;
+      --color-surface: #ffffff;
+      --color-surface-subtle: #f8fafc;
+      --color-border: #e2e8f0;
+      --color-text: #0f172a;
+      --color-text-muted: #64748b;
+      --spacing-unit: 0.25rem;
+      --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+      line-height: 1.7;
+      color: var(--color-text);
+      background: linear-gradient(165deg, #f1f5f9 0%, #e0e7ff 50%, #dbeafe 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      padding: calc(var(--spacing-unit) * 8) calc(var(--spacing-unit) * 4);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      right: -20%;
+      width: 80%;
+      height: 120%;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(-30px, -30px) rotate(5deg); }
+      66% { transform: translate(20px, 40px) rotate(-3deg); }
+    }
+
+    .hero {
+      max-width: 1440px;
+      margin: 0 auto;
+      background: var(--color-surface);
+      border-radius: calc(var(--spacing-unit) * 6);
+      box-shadow: 
+        0 1px 3px rgba(15, 23, 42, 0.05),
+        0 10px 40px rgba(15, 23, 42, 0.08),
+        0 0 0 1px rgba(15, 23, 42, 0.04);
+      padding: calc(var(--spacing-unit) * 12);
+      animation: slideUp 0.8s var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, 
+        var(--color-accent) 0%, 
+        var(--color-accent-light) 50%, 
+        var(--color-accent) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Navigation */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: calc(var(--spacing-unit) * 3);
+      margin-bottom: calc(var(--spacing-unit) * 10);
+      flex-wrap: wrap;
+    }
+
+    .nav-button {
+      display: inline-flex;
+      align-items: center;
+      gap: calc(var(--spacing-unit) * 2);
+      padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 6);
+      border-radius: calc(var(--spacing-unit) * 3);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      letter-spacing: -0.01em;
+      transition: all 0.3s var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: currentColor;
+      opacity: 0;
+      transition: opacity 0.3s var(--transition-smooth);
+    }
+
+    .nav-button:hover::before {
+      opacity: 0.05;
+    }
+
+    .nav-button.secondary {
+      background: var(--color-surface-subtle);
+      color: var(--color-text);
+      border: 1.5px solid var(--color-border);
+    }
+
+    .nav-button.secondary:hover {
+      border-color: var(--color-accent);
+      transform: translateX(-2px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    }
+
+    .nav-button.primary {
+      background: var(--color-primary);
+      color: white;
+      border: 1.5px solid var(--color-primary);
+    }
+
+    .nav-button.primary:hover {
+      background: var(--color-secondary);
+      border-color: var(--color-secondary);
+      transform: translateX(2px);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
+    }
+
+    /* Header Section */
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 900;
+      color: var(--color-primary);
+      margin-bottom: calc(var(--spacing-unit) * 4);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      animation: fadeInUp 0.8s var(--transition-smooth) 0.2s backwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section-intro {
+      font-size: 1.0625rem;
+      color: var(--color-text-muted);
+      line-height: 1.8;
+      margin-bottom: calc(var(--spacing-unit) * 10);
+      max-width: 920px;
+      padding: calc(var(--spacing-unit) * 6);
+      background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.04) 0%, 
+        rgba(147, 197, 253, 0.06) 100%);
+      border-left: 3px solid var(--color-accent);
+      border-radius: calc(var(--spacing-unit) * 3);
+      animation: fadeInUp 0.8s var(--transition-smooth) 0.3s backwards;
+    }
+
+    /* Table Styling */
+    .table-wrapper {
+      overflow-x: auto;
+      margin-top: calc(var(--spacing-unit) * 6);
+      border-radius: calc(var(--spacing-unit) * 4);
+      box-shadow: 
+        0 1px 3px rgba(15, 23, 42, 0.06),
+        0 10px 30px rgba(15, 23, 42, 0.08);
+      margin-bottom: calc(var(--spacing-unit) * 10);
+      animation: fadeInUp 0.8s var(--transition-smooth) 0.4s backwards;
+      border: 1px solid var(--color-border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: var(--color-surface);
+    }
+
+    thead {
+      background: var(--color-primary);
+      color: white;
+      position: relative;
+    }
+
+    thead::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        var(--color-accent-light) 50%, 
+        transparent 100%);
+    }
+
+    th {
+      padding: calc(var(--spacing-unit) * 5) calc(var(--spacing-unit) * 6);
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    th:first-child {
+      border-top-left-radius: calc(var(--spacing-unit) * 4);
+      width: 40%;
+    }
+
+    th:last-child {
+      border-top-right-radius: calc(var(--spacing-unit) * 4);
+    }
+
+    th:nth-child(2),
+    th:nth-child(3) {
+      width: 30%;
+    }
+
+    tbody tr {
+      transition: all 0.25s var(--transition-smooth);
+      border-bottom: 1px solid var(--color-border);
+      position: relative;
+    }
+
+    tbody tr::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--color-accent);
+      transform: scaleY(0);
+      transition: transform 0.25s var(--transition-smooth);
+    }
+
+    tbody tr:hover::before {
+      transform: scaleY(1);
+    }
+
+    tbody tr:hover {
+      background: var(--color-surface-subtle);
+      box-shadow: 0 2px 12px rgba(59, 130, 246, 0.08);
+    }
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    td {
+      padding: calc(var(--spacing-unit) * 7) calc(var(--spacing-unit) * 6);
+      vertical-align: top;
+      font-size: 0.9375rem;
+    }
+
+    td:first-child {
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.6;
+      letter-spacing: -0.01em;
+    }
+
+    /* Select Container */
+    .select-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: calc(var(--spacing-unit) * 3);
+    }
+
+    /* Status Indicator Circle */
+    .status-indicator {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      box-shadow: 
+        0 0 0 3px rgba(255, 255, 255, 0.9),
+        0 2px 8px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      transform: scale(0) rotate(-180deg);
+      transition: all 0.4s var(--transition-smooth);
+      flex-shrink: 0;
+      align-self: flex-start;
+      position: relative;
+    }
+
+    .status-indicator::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: inherit;
+      opacity: 0.3;
+      filter: blur(8px);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.2); opacity: 0.1; }
+    }
+
+    .status-indicator.show {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    .status-indicator.level-1 { background: #ef4444; }
+    .status-indicator.level-2 { background: #f97316; }
+    .status-indicator.level-3 { background: #eab308; }
+    .status-indicator.level-4 { background: #22c55e; }
+    .status-indicator.level-5 { background: #10b981; }
+
+    /* Select Dropdown Styling */
+    select {
+      width: 100%;
+      padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 4);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      border: 1.5px solid var(--color-border);
+      border-radius: calc(var(--spacing-unit) * 3);
+      background: var(--color-surface);
+      color: var(--color-text);
+      cursor: pointer;
+      transition: all 0.25s var(--transition-smooth);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right calc(var(--spacing-unit) * 4) center;
+      background-size: 20px;
+      padding-right: calc(var(--spacing-unit) * 12);
+      line-height: 1.5;
+      letter-spacing: -0.01em;
+    }
+
+    select:hover {
+      border-color: var(--color-accent);
+      background-color: var(--color-surface-subtle);
+      box-shadow: 0 2px 12px rgba(59, 130, 246, 0.1);
+    }
+
+    select:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      background-color: var(--color-surface);
+      box-shadow: 
+        0 0 0 3px rgba(59, 130, 246, 0.1),
+        0 4px 16px rgba(59, 130, 246, 0.15);
+    }
+
+    select option {
+      padding: calc(var(--spacing-unit) * 4);
+      font-weight: 500;
+    }
+
+    /* Legend/Key Styling */
+    .legend {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: calc(var(--spacing-unit) * 8);
+      margin-top: calc(var(--spacing-unit) * 10);
+      padding: calc(var(--spacing-unit) * 7);
+      background: linear-gradient(135deg, 
+        rgba(248, 250, 252, 0.8) 0%, 
+        rgba(241, 245, 249, 0.9) 100%);
+      border-radius: calc(var(--spacing-unit) * 4);
+      flex-wrap: wrap;
+      box-shadow: 
+        0 1px 3px rgba(15, 23, 42, 0.05),
+        0 0 0 1px rgba(15, 23, 42, 0.04);
+      border-top: 2px solid var(--color-accent);
+      animation: fadeInUp 0.8s var(--transition-smooth) 0.6s backwards;
+      backdrop-filter: blur(10px);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: calc(var(--spacing-unit) * 3);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--color-text);
+      letter-spacing: -0.01em;
+      transition: transform 0.2s var(--transition-smooth);
+    }
+
+    .legend-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .legend-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      box-shadow: 
+        0 0 0 3px rgba(255, 255, 255, 0.9),
+        0 2px 6px rgba(0, 0, 0, 0.12);
+      transition: transform 0.2s var(--transition-smooth);
+    }
+
+    .legend-item:hover .legend-circle {
+      transform: scale(1.15);
+    }
+
+    .legend-circle.red { background: #ef4444; }
+    .legend-circle.orange { background: #f97316; }
+    .legend-circle.yellow { background: #eab308; }
+    .legend-circle.light-green { background: #22c55e; }
+    .legend-circle.dark-green { background: #10b981; }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .hero {
+        padding: calc(var(--spacing-unit) * 8);
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      th, td {
+        padding: calc(var(--spacing-unit) * 5);
+        font-size: 0.875rem;
+      }
+
+      .legend {
+        gap: calc(var(--spacing-unit) * 6);
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 2);
+      }
+
+      .hero {
+        padding: calc(var(--spacing-unit) * 6);
+        border-radius: calc(var(--spacing-unit) * 4);
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .section-intro {
+        font-size: 0.9375rem;
+        padding: calc(var(--spacing-unit) * 4);
+      }
+
+      .legend {
+        gap: calc(var(--spacing-unit) * 4);
+        padding: calc(var(--spacing-unit) * 5);
+      }
+
+      .legend-item {
+        font-size: 0.875rem;
+      }
+
+      .legend-circle {
+        width: 18px;
+        height: 18px;
+      }
+
+      .table-wrapper {
+        margin-left: calc(var(--spacing-unit) * -6);
+        margin-right: calc(var(--spacing-unit) * -6);
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+      }
+
+      table {
+        font-size: 0.8125rem;
+      }
+
+      th, td {
+        padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 3);
+      }
+
+      select {
+        font-size: 0.8125rem;
+        padding: calc(var(--spacing-unit) * 3);
+      }
+
+      .status-indicator {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      .nav-buttons {
+        flex-direction: column;
+      }
+
+      .nav-button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .legend {
+        gap: calc(var(--spacing-unit) * 3);
+      }
+
+      .legend-item {
+        font-size: 0.8125rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="hero wide">
+    <!-- Navigation -->
+    <div class="nav-buttons">
+      <a href="policy-and-funding.html" class="nav-button secondary">← Previous</a>
+      <a href="index.html" class="nav-button primary">Home</a>
+    </div>
+
+    <!-- Header -->
+    <h1>Design and Delivery</h1>
+    <p class="section-intro">
+      This section explores how organisations structure and implement their approach to
+      delivering Passivhaus (PH) or Ultra-Low Energy (ULE) social housing, including
+      delivery strategy, quality assurance, and procurement practices.
+    </p>
+
+    <!-- Table -->
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Now</th>
+            <th>Future</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Question 1 -->
+          <tr>
+            <td>
+              How structured and effective is your organisation's strategy for delivering Passivhaus (PH) or Ultra-Low Energy (ULE) housing?
+            </td>
+            <td>
+              <div class="select-container">
+                <select onchange="updateIndicator(this)">
+                  <option value="">Select...</option>
+                  <option value="1">No structured delivery strategy. Implementation is ad hoc or limited to isolated pilots.</option>
+                  <option value="2">Early planning exists but lacks consistency or integration.</option>
+                  <option value="3">Structured delivery strategy in place that led to isolated success.</option>
+                  <option value="4">Delivery strategy is embedded and reviewed regularly. Processes are replicable and supported by internal capacity.</option>
+                  <option value="5">Strategy drives innovation, informs sector best practice, and adapts to emerging challenges.</option>
+                </select>
+                <div class="status-indicator"></div>
+              </div>
+            </td>
+            <td>
+              <div class="select-container">
+                <select onchange="updateIndicator(this)">
+                  <option value="">Select...</option>
+                  <option value="1">No structured delivery strategy. Implementation is ad hoc or limited to isolated pilots.</option>
+                  <option value="2">Early planning exists but lacks consistency or integration.</option>
+                  <option value="3">Structured delivery strategy in place that led to isolated success.</option>
+                  <option value="4">Delivery strategy is embedded and reviewed regularly. Processes are replicable and supported by internal capacity.</option>
+                  <option value="5">Strategy drives innovation, informs sector best practice, and adapts to emerging challenges.</option>
+                </select>
+                <div class="status-indicator"></div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Question 2 -->
+          <tr>
+            <td>
+              To what extent does your organisation implement structured audit and reporting mechanisms to ensure quality and accountability in ultra-low energy housing delivery?
+            </td>
+            <td>
+              <div class="select-container">
+                <select onchange="updateIndicator(this)">
+                  <option value="">Select...</option>
+                  <option value="1">QA is ad hoc, reactive, and mostly dependent on external requirements (e.g., statutory inspections); little internal consistency.</option>
+                  <option value="2">Basic QA processes exist but are inconsistently applied. Limited reporting or feedback loops.</option>
+                  <option value="3">QA strategy is structured and applied in some cases.</option>
+                  <option value="4">QA is embedded across programmes. Continuous improvement is driven by systematic audits and performance reviews.</option>
+                  <option value="5">QA is sector-leading, with predictive quality assurance, third-party certification (e.g., PH certification, AECB certification, transparent benchmarking, and sharing of insights to influence industry standards.</option>
+                </select>
+                <div class="status-indicator"></div>
+              </div>
+            </td>
+            <td>
+              <div class="select-container">
+                <select onchange="updateIndicator(this)">
+                  <option value="">Select...</option>
+                  <option value="1">QA is ad hoc, reactive, and mostly dependent on external requirements (e.g., statutory inspections); little internal consistency.</option>
+                  <option value="2">Basic QA processes exist but are inconsistently applied. Limited reporting or feedback loops.</option>
+                  <option value="3">QA strategy is structured and applied in some cases.</option>
+                  <option value="4">QA is embedded across programmes. Continuous improvement is driven by systematic audits and performance reviews.</option>
+                  <option value="5">QA is sector-leading, with predictive quality assurance, third-party certification (e.g., PH certification, AECB certification, transparent benchmarking, and sharing of insights to influence industry standards.</option>
+                </select>
+                <div class="status-indicator"></div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Question 3 -->
+          <tr>
+            <td>
+              To what extent does your organisation use a strategic and value-driven procurement approach that supports PH/ULE delivery?
+            </td>
+            <td>
+              <div class="select-container">
+                <select onchange="updateIndicator(this)">
+                  <option value="">Select...</option>
+                  <option value="1">Procurement is basic, or no resource to develop procurement strategy</option>
+                  <option value="2">Some consideration of energy performance and policy alignment in procurement, but not consistently applied. Some support in procurement available</option>
+                  <option value="3">Established procurement strategy for small scale PH/ULE delivery.</option>
+                  <option value="4">Strategic procurement is embedded. Frameworks and partnerships are used to deliver policy-aligned outcomes at scale.</option>
+                  <option value="5">Organisation pioneers innovative procurement models that drive sector transformation and exceed policy expectations.</option>
+                </select>
+                <div class="status-indicator"></div>
+              </div>
+            </td>
+            <td>
+              <div class="select-container">
+                <select onchange="updateIndicator(this)">
+                  <option value="">Select...</option>
+                  <option value="1">Procurement is basic, or no resource to develop procurement strategy</option>
+                  <option value="2">Some consideration of energy performance and policy alignment in procurement, but not consistently applied. Some support in procurement available</option>
+                  <option value="3">Established procurement strategy for small scale PH/ULE delivery.</option>
+                  <option value="4">Strategic procurement is embedded. Frameworks and partnerships are used to deliver policy-aligned outcomes at scale.</option>
+                  <option value="5">Organisation pioneers innovative procurement models that drive sector transformation and exceed policy expectations.</option>
+                </select>
+                <div class="status-indicator"></div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Legend at Bottom -->
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-circle red"></div>
+        <span>Follower</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-circle orange"></div>
+        <span>Starter</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-circle yellow"></div>
+        <span>Mature</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-circle light-green"></div>
+        <span>Leader</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-circle dark-green"></div>
+        <span>Innovator</span>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function updateIndicator(selectElement) {
+      const container = selectElement.parentElement;
+      const indicator = container.querySelector('.status-indicator');
+      const selectedValue = selectElement.value;
+      
+      // Remove all level classes
+      indicator.classList.remove('level-1', 'level-2', 'level-3', 'level-4', 'level-5', 'show');
+      
+      // Add new level class and show if value is selected
+      if (selectedValue) {
+        indicator.classList.add(`level-${selectedValue}`, 'show');
+      }
+    }
+  </script>
+</body>
+</html>

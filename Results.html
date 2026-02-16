@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assessment Results - PHOCUS</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #2c3e50;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 1.5rem 1rem;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .chart-section {
+      margin: 2rem 0;
+      padding: 2rem;
+      background: #f8f9fa;
+      border-radius: 12px;
+    }
+
+    .chart-container {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      height: 500px;
+    }
+
+    .scores-table {
+      margin: 2rem 0;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    thead {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    tbody tr:hover {
+      background: #f8f9fa;
+    }
+
+    .score-value {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .score-now {
+      color: #fd7e14;
+    }
+
+    .score-future {
+      color: #28a745;
+    }
+
+    .summary-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .summary-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-top: 4px solid #667eea;
+    }
+
+    .summary-card h3 {
+      color: #495057;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .summary-card .value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #667eea;
+    }
+
+    .action-plans {
+      margin: 2rem 0;
+      padding: 2rem;
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      border-radius: 8px;
+    }
+
+    .action-plans h2 {
+      color: #856404;
+      margin-bottom: 1rem;
+    }
+
+    .action-item {
+      padding: 1rem;
+      margin: 0.5rem 0;
+      background: white;
+      border-radius: 8px;
+      border-left: 3px solid #ffc107;
+    }
+
+    .action-item h4 {
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+
+    .action-item p {
+      color: #6c757d;
+      font-size: 0.95rem;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 1rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #f8f9fa;
+      color: #495057;
+      border: 2px solid #dee2e6;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    @media (max-width: 768px) {
+      .chart-container {
+        height: 400px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .summary-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📊 Your PHOCUS Assessment Results</h1>
+
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+      <div class="summary-card">
+        <h3>Current Score (Now)</h3>
+        <div class="value score-now" id="totalNow">-</div>
+      </div>
+      <div class="summary-card">
+        <h3>Future Score (Target)</h3>
+        <div class="value score-future" id="totalFuture">-</div>
+      </div>
+      <div class="summary-card">
+        <h3>Improvement Gap</h3>
+        <div class="value" style="color: #667eea;" id="gap">-</div>
+      </div>
+    </div>
+
+    <!-- Spider Chart -->
+    <div class="chart-section">
+      <h2 style="text-align: center; margin-bottom: 1.5rem;">Capability Radar Chart</h2>
+      <div class="chart-container">
+        <canvas id="radarChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Detailed Scores Table -->
+    <div class="scores-table">
+      <h2 style="margin-bottom: 1rem;">Detailed Scores by Section</h2>
+      <table id="scoresTable">
+        <thead>
+          <tr>
+            <th>Section</th>
+            <th>Question</th>
+            <th>Now (Weighted)</th>
+            <th>Future (Weighted)</th>
+            <th>Gap</th>
+          </tr>
+        </thead>
+        <tbody id="scoresTableBody">
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Action Plans -->
+    <div class="action-plans" id="actionPlans">
+      <h2>🎯 Recommended Action Plans</h2>
+      <div id="actionPlansList"></div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="buttons">
+      <a href="policy-and-funding.html" class="btn btn-secondary">← Review Answers</a>
+      <button onclick="exportData()" class="btn btn-secondary">📥 Export Results</button>
+      <button onclick="clearAllData()" class="btn btn-secondary" style="background: #dc3545; color: white; border: none;">🗑️ Clear All Data</button>
+    </div>
+  </div>
+
+  <script>
+    // Complete configuration from Excel data
+    const CONFIG = {
+      'PolicyAndFunding': {
+        sectionLabel: 'Policy & Funding',
+        questions: {
+          'policy': { weight: 0.065, label: 'Policy' },
+          'funding': { weight: 0.057, label: 'Funding' }
+        }
+      },
+      'OverarchingStrategies': {
+        sectionLabel: 'Overarching Strategies',
+        questions: {
+          'delivery_strategy': { weight: 0.051, label: 'Delivery Strategy' },
+          'quality_assurance': { weight: 0.040, label: 'Quality Assurance' },
+          'procurement_strategy': { weight: 0.040, label: 'Procurement Strategy' }
+        }
+      },
+      'OrganisationalCapability': {
+        sectionLabel: 'Organisational Capability',
+        questions: {
+          'leadership': { weight: 0.065, label: 'Leadership & Governance' },
+          'training': { weight: 0.056, label: 'Training & Skills' },
+          'culture': { weight: 0.050, label: 'Culture & Collaboration' },
+          'cost_benefit': { weight: 0.050, label: 'Cost-Benefit Analysis' },
+          'stakeholder': { weight: 0.045, label: 'Stakeholder Engagement' }
+        }
+      },
+      'ProcessMaturity': {
+        sectionLabel: 'Process Maturity',
+        questions: {
+          'process_doc': { weight: 0.058, label: 'Process Documentation' },
+          'project_mgmt': { weight: 0.047, label: 'Project Management' },
+          'risk_mgmt': { weight: 0.053, label: 'Risk Management' },
+          'post_occupancy': { weight: 0.052, label: 'Post-Occupancy' },
+          'monitoring': { weight: 0.057, label: 'Monitoring & Feedback' }
+        }
+      },
+      'IntegrationScalability': {
+        sectionLabel: 'Integration & Scalability',
+        questions: {
+          'supply_chain': { weight: 0.058, label: 'Supply Chain Integration' },
+          'scalability': { weight: 0.053, label: 'Scalability & Market Growth' }
+        }
+      }
+    };
+
+    function calculateScores() {
+      const results = {
+        sections: {},
+        totalNow: 0,
+        totalFuture: 0
+      };
+
+      Object.keys(CONFIG).forEach(sectionKey => {
+        const section = CONFIG[sectionKey];
+        let sectionNow = 0;
+        let sectionFuture = 0;
+        const questionResults = [];
+
+        Object.keys(section.questions).forEach(questionKey => {
+          const question = section.questions[questionKey];
+          const nowKey = `${sectionKey}_${questionKey}_now`;
+          const futureKey = `${sectionKey}_${questionKey}_future`;
+
+          const nowValue = parseInt(localStorage.getItem(nowKey) || 0);
+          const futureValue = parseInt(localStorage.getItem(futureKey) || 0);
+
+          const nowWeighted = nowValue * question.weight;
+          const futureWeighted = futureValue * question.weight;
+
+          sectionNow += nowWeighted;
+          sectionFuture += futureWeighted;
+
+          questionResults.push({
+            label: question.label,
+            nowRaw: nowValue,
+            futureRaw: futureValue,
+            nowWeighted: nowWeighted,
+            futureWeighted: futureWeighted,
+            gap: futureWeighted - nowWeighted
+          });
+        });
+
+        results.sections[sectionKey] = {
+          label: section.sectionLabel,
+          now: sectionNow,
+          future: sectionFuture,
+          gap: sectionFuture - sectionNow,
+          questions: questionResults
+        };
+
+        results.totalNow += sectionNow;
+        results.totalFuture += sectionFuture;
+      });
+
+      return results;
+    }
+
+    function createRadarChart(results) {
+      const ctx = document.getElementById('radarChart').getContext('2d');
+      
+      const labels = Object.values(results.sections).map(s => s.label);
+      const nowData = Object.values(results.sections).map(s => (s.now * 100).toFixed(1));
+      const futureData = Object.values(results.sections).map(s => (s.future * 100).toFixed(1));
+
+      new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Now',
+              data: nowData,
+              backgroundColor: 'rgba(253, 126, 20, 0.2)',
+              borderColor: '#fd7e14',
+              borderWidth: 2,
+              pointBackgroundColor: '#fd7e14',
+              pointBorderColor: '#fff',
+              pointRadius: 5
+            },
+            {
+              label: 'Future',
+              data: futureData,
+              backgroundColor: 'rgba(40, 167, 69, 0.2)',
+              borderColor: '#28a745',
+              borderWidth: 2,
+              pointBackgroundColor: '#28a745',
+              pointBorderColor: '#fff',
+              pointRadius: 5
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              beginAtZero: true,
+              max: 100,
+              ticks: {
+                stepSize: 20
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                font: {
+                  size: 14,
+                  weight: 'bold'
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function populateTable(results) {
+      const tbody = document.getElementById('scoresTableBody');
+      tbody.innerHTML = '';
+
+      Object.values(results.sections).forEach(section => {
+        section.questions.forEach((q, idx) => {
+          const row = tbody.insertRow();
+          
+          if (idx === 0) {
+            const sectionCell = row.insertCell();
+            sectionCell.textContent = section.label;
+            sectionCell.rowSpan = section.questions.length;
+            sectionCell.style.fontWeight = 'bold';
+            sectionCell.style.backgroundColor = '#f8f9fa';
+            sectionCell.style.borderRight = '2px solid #667eea';
+          }
+
+          row.insertCell().textContent = q.label;
+          row.insertCell().innerHTML = `<span class="score-value score-now">${(q.nowWeighted * 100).toFixed(1)}%</span>`;
+          row.insertCell().innerHTML = `<span class="score-value score-future">${(q.futureWeighted * 100).toFixed(1)}%</span>`;
+          row.insertCell().innerHTML = `<span class="score-value" style="color: ${q.gap > 0 ? '#28a745' : '#dc3545'};">${(q.gap * 100).toFixed(1)}%</span>`;
+        });
+      });
+    }
+
+    function generateActionPlans(results) {
+      const actionsList = document.getElementById('actionPlansList');
+      actionsList.innerHTML = '';
+
+      // Find sections with largest gaps
+      const sortedSections = Object.entries(results.sections)
+        .sort((a, b) => b[1].gap - a[1].gap)
+        .slice(0, 3);
+
+      sortedSections.forEach(([key, section]) => {
+        const actionItem = document.createElement('div');
+        actionItem.className = 'action-item';
+        
+        const recommendations = getRecommendations(section.label, section.now, section.gap);
+        
+        actionItem.innerHTML = `
+          <h4>${section.label}</h4>
+          <p><strong>Current Score:</strong> ${(section.now * 100).toFixed(1)}% | 
+          <strong>Target Score:</strong> ${(section.future * 100).toFixed(1)}% | 
+          <strong>Gap:</strong> ${(section.gap * 100).toFixed(1)}%</p>
+          <p>${recommendations}</p>
+        `;
+        
+        actionsList.appendChild(actionItem);
+      });
+    }
+
+    function getRecommendations(sectionLabel, currentScore, gap) {
+      const recommendations = {
+        'Policy & Funding': 'Develop formal PH/ULE policy framework and establish dedicated funding strategy. Consider partnering with external funders and developing business case for long-term investment.',
+        'Overarching Strategies': 'Implement structured delivery processes, establish QA mechanisms, and develop strategic procurement frameworks aligned with PH/ULE requirements.',
+        'Organisational Capability': 'Invest in staff training, establish clear governance structures, and develop sustainability culture through KPIs and leadership commitment.',
+        'Process Maturity': 'Document standard processes, implement robust project management controls, and establish comprehensive monitoring and feedback systems.',
+        'Integration & Scalability': 'Develop coordinated supply chain frameworks, implement early contractor involvement (ECI), and create scalability roadmap for expanding PH/ULE delivery.'
+      };
+
+      return recommendations[sectionLabel] || 'Focus on continuous improvement and stakeholder engagement.';
+    }
+
+    function displayResults() {
+      const results = calculateScores();
+
+      // Update summary cards
+      document.getElementById('totalNow').textContent = (results.totalNow * 100).toFixed(1) + '%';
+      document.getElementById('totalFuture').textContent = (results.totalFuture * 100).toFixed(1) + '%';
+      document.getElementById('gap').textContent = ((results.totalFuture - results.totalNow) * 100).toFixed(1) + '%';
+
+      // Create charts and tables
+      createRadarChart(results);
+      populateTable(results);
+      generateActionPlans(results);
+    }
+
+    function exportData() {
+      const results = calculateScores();
+      const dataStr = JSON.stringify(results, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'phocus-assessment-results.json';
+      link.click();
+    }
+
+    function clearAllData() {
+      if (confirm('Are you sure you want to clear all assessment data? This cannot be undone.')) {
+        localStorage.clear();
+        alert('All data has been cleared. Redirecting to start...');
+        window.location.href = 'policy-and-funding.html';
+      }
+    }
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', displayResults);
+  </script>
+</body>
+</html>

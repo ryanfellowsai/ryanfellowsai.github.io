@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use - Ultra-low Energy Social Housing Toolkit</title>
+    <style>
+        :root {
+            --primary-green: #2d6a4f;
+            --secondary-blue: #1b4332;
+            --accent-gold: #f9f7f2;
+            --text-main: #2b2d42;
+            --text-light: #555;
+            --white: #ffffff;
+            --level-1: #e63946;
+            --level-2: #f4a261;
+            --level-3: #e9c46a;
+            --level-4: #2a9d8f;
+            --level-5: #2d6a4f;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--accent-gold);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .content-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: var(--primary-green);
+            border-bottom: 2px solid var(--accent-gold);
+            padding-bottom: 10px;
+        }
+
+        .instruction-list {
+            padding-left: 20px;
+        }
+
+        .instruction-list li {
+            margin-bottom: 15px;
+        }
+
+        /* Maturity Levels Styling */
+        .maturity-levels {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .level-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .l1 { background: var(--level-1); }
+        .l2 { background: var(--level-2); }
+        .l3 { background: var(--level-3); }
+        .l4 { background: var(--level-4); }
+        .l5 { background: var(--level-5); }
+
+        /* Buttons Styling */
+        .main-action {
+            display: block;
+            width: 95%;
+            background-color: var(--primary-green);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 30px 0 15px 0;
+            transition: background 0.3s;
+        }
+
+        .main-action:hover { background-color: var(--secondary-blue); }
+
+        .secondary-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .btn-sec {
+            background: #d1d9e6;
+            color: var(--secondary-blue);
+            text-align: center;
+            padding: 12px 5px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .btn-sec:hover { background: #bcc6d5; }
+
+        .prototype-warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            border: 1px solid #ffeeba;
+        }
+
+        @media (max-width: 600px) {
+            .secondary-actions { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="content-card">
+            <h2>How to use this tool</h2>
+            
+            <ul class="instruction-list">
+                <li>Begin by clicking the <strong>'BEGIN THE ASSESSMENT'</strong> button below.</li>
+                <li>Go through each section using the 'NEXT' button on each page.</li>
+                <li>Each section contains <strong>2 to 5 questions</strong>. Use the dropdown menus to select the option that best fits your knowledge.</li>
+                <li>Select answers based on where your organisation is <strong>now</strong> and where you want to be <strong>in the future (3-5 years)</strong>.</li>
+                <li>Your final score is based on weighted performance across all sections, resulting in a <strong>level of maturity</strong> and a tailored <strong>action plan</strong>.</li>
+            </ul>
+
+            <div class="maturity-levels">
+                <span class="level-badge l1">Level 1: Observer</span>
+                <span class="level-badge l2">Level 2: Early Adopter</span>
+                <span class="level-badge l3">Level 3: Effective Deliverer</span>
+                <span class="level-badge l4">Level 4: Leader</span>
+                <span class="level-badge l5">Level 5: Innovator</span>
+            </div>
+
+            <p>You can also view the <strong>PHOCUS Maturity Reference Model</strong>, which this tool is based upon, or access your results and action plan once the assessment is complete.</p>
+
+            <div class="prototype-warning">
+                <strong>Note:</strong> This is a prototype for testing purposes. Your data will not be recorded.
+            </div>
+
+            <a href="PHOCUS.html" class="main-action">BEGIN THE ASSESSMENT &gt;&gt;&gt;</a>
+
+            <div class="secondary-actions">
+                <a href="PHOCUS.html" class="btn-sec">View PHOCUS Reference Model</a>
+                <a href="#" class="btn-sec">View your results</a>
+                <a href="#" class="btn-sec">View your action plan</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

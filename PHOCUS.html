@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOCUS Maturity Model & Toolkit Guide</title>
+    <style>
+        :root {
+            --primary: #2d6a4f;
+            --bg-light: #f8fbf9;
+            --white: #ffffff;
+            /* Official Section Colors from PHOCUS Model */
+            --c-policy: #f3a673;    /* Orange */
+            --c-strategy: #f9dcc4;  /* Tan/Peach */
+            --c-org: #fff3b0;       /* Yellow */
+            --c-process: #99e2d0;    /* Teal */
+            --c-supply: #c7e9b0;     /* Light Green */
+            --c-integration: #52b788; /* Darker Green */
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            background-color: var(--bg-light);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Top Navigation Bar */
+        nav {
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            z-index: 100;
+        }
+
+        .home-link {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 4px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        /* Main Layout Grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Left Sidebar: Instructions */
+        .guide-panel {
+            background: var(--white);
+            padding: 2rem;
+            border-right: 1px solid #dee2e6;
+            overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.02);
+        }
+
+        .guide-panel h2 { color: var(--primary); margin-top: 0; font-size: 1.5rem; }
+        
+        .step {
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .status-indicators {
+            display: flex;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+        
+        .btn-start {
+            display: block;
+            background: #adc2d1; /* Matches the blue-grey in image */
+            color: #000;
+            text-align: center;
+            padding: 18px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin: 25px 0;
+            border: 1px solid #8ba0ae;
+            transition: all 0.2s;
+        }
+
+        .btn-start:hover { background: #96abbb; transform: translateY(-1px); }
+
+        /* Main Area: Reference Model */
+        .model-panel {
+            padding: 1.5rem;
+            overflow: auto;
+        }
+
+        .model-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 15px;
+        }
+
+        .legend { display: flex; gap: 8px; }
+        .lvl-tag {
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Table Styling */
+        .table-container { background: white; border: 1px solid #ccc; border-radius: 4px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+            min-width: 1300px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            vertical-align: top;
+            line-height: 1.4;
+        }
+
+        th { background: #2b3a4a; color: white; position: sticky; top: 0; z-index: 10; text-align: left; }
+
+        /* Color Groups */
+        .cat-policy { background-color: var(--c-policy); width: 100px; font-weight: bold; text-align: center; }
+        .cat-strategy { background-color: var(--c-strategy); width: 100px; font-weight: bold; text-align: center; }
+        .cat-org { background-color: var(--c-org); width: 100px; font-weight: bold; text-align: center; }
+        .cat-process { background-color: var(--c-process); width: 100px; font-weight: bold; text-align: center; }
+        .cat-supply { background-color: var(--c-supply); width: 100px; font-weight: bold; text-align: center; }
+        .cat-integration { background-color: var(--c-integration); width: 100px; font-weight: bold; text-align: center; }
+
+        .dim-cell { font-weight: bold; width: 140px; background: #fdfdfd; }
+        .desc-cell { color: #555; font-style: italic; width: 180px; font-size: 0.78rem; }
+
+        .prototype-footer {
+            background: #fff3cd;
+            color: #856404;
+            padding: 12px;
+            border: 1px solid #ffeeba;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div style="font-size: 1.2rem; font-weight: bold;">PHOCUS Maturity Model Reference</div>
+    <a href="HowTo.html" class="home-link">Back</a>
+</nav>
+
+<div class="dashboard">
+    <aside class="guide-panel">
+        <h2>How to use this tool</h2>
+        <div class="step">
+            Click <strong>'BEGIN THE ASSESSMENT'</strong> to start. Navigate using the 'NEXT' button on each page.
+        </div>
+        <div class="step">
+            For each section, answer 2 to 5 questions using <strong>dropdown menus</strong> to select the option that best fits your knowledge.
+        </div>
+        <div class="step">
+            Select answers based on where your organisation is <strong>now</strong> and where it wants to be <strong>in the future (3-5 years)</strong>.
+        </div>
+        <div class="step">
+            You will receive a <strong>level of maturity</strong> score and a tailored <strong>action plan</strong> to progress between levels.
+        </div>
+
+        <div class="status-indicators">
+            <span class="dot" style="background:#e63946"></span>
+            <span class="dot" style="background:#f4a261"></span>
+            <span class="dot" style="background:#e9c46a"></span>
+            <span class="dot" style="background:#2a9d8f"></span>
+            <span class="dot" style="background:#2d6a4f"></span>
+        </div>
+        <div style="font-size: 0.8rem; margin-bottom: 10px;">Scored from Level 1 Observer to Level 5 Innovator.</div>
+
+        <a href="policy-and-funding-final.html" class="btn-start">BEGIN THE ASSESSMENT >>></a>
+
+        <div class="prototype-footer">
+            <strong>Note:</strong> This is a prototype for testing purposes. Your data will not be recorded.
+        </div>
+    </aside>
+
+    <main class="model-panel">
+        <div class="model-header">
+            <div style="font-weight: bold; color: var(--primary);">Full Reference Model Overview</div>
+            <div class="legend">
+                <span class="lvl-tag" style="background:#e63946">L1: Observer</span>
+                <span class="lvl-tag" style="background:#f4a261">L2: Early Adopter</span>
+                <span class="lvl-tag" style="background:#e9c46a">L3: Effective Deliverer</span>
+                <span class="lvl-tag" style="background:#2a9d8f">L4: Leader</span>
+                <span class="lvl-tag" style="background:#2d6a4f">L5: Innovator</span>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Overview</th>
+                        <th>Dimensions</th>
+                        <th>Descriptions</th>
+                        <th>Level 1 Observer</th>
+                        <th>Level 2 Early Adopter</th>
+                        <th>Level 3 Effective Deliverer</th>
+                        <th>Level 4 Leader</th>
+                        <th>Level 5 Innovator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="2" class="cat-policy">Policy and Funding</td>
+                        <td class="dim-cell">Policy</td>
+                        <td class="desc-cell">Organisational policy influence on the ability to deliver PH/ULE social housing.</td>
+                        <td>No policy commitment or strategic alignment with PH/ULE goals.</td>
+                        <td>Policy shows early interest or in development.</td>
+                        <td>Policy supports PH/ULE delivery.</td>
+                        <td>Policy sets high standards with strategic alignment and formal mechanisms.</td>
+                        <td>Policy leads on housing innovation, shaping national agendas.</td>
+                    </tr>
+                    <tr>
+                        <td class="dim-cell">Funding</td>
+                        <td class="desc-col">Ability to attract, secure, and influence funding sources beyond conventional routes.</td>
+                        <td>No resource or strategy to secure funding for PH/ULE.</td>
+                        <td>Plans to recruit resources and seek support for suitable funding options.</td>
+                        <td>Has business model and successfully accessed non-standard funding.</td>
+                        <td>In-house specialists and regular diverse funding streams.</td>
+                        <td>Influence the funder and funding model; advocate for increased funding.</td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="3" class="cat-strategy">Overarching Strategies</td>
+                        <td class="dim-cell">Delivery strategy</td>
+                        <td class="desc-cell">Structured approach to effectively implement PH/ULE delivery.</td>
+                        <td>No structured strategy. Implementation is ad hoc or isolated pilots.</td>
+                        <td>Early planning exists but lacks consistency or integration.</td>
+                        <td>Structured delivery strategy in place that led to isolated success.</td>
+                        <td>Strategy is embedded and reviewed regularly. Processes are replicable.</td>
+                        <td>Strategy drives innovation and informs sector best practice.</td>
+                    </tr>
+                    <tr>
+                        <td class="dim-cell">Quality assurance</td>
+                        <td class="desc-cell">Ensuring PH/ULE projects consistently meet performance and quality outcomes.</td>
+                        <td>QA is ad hoc, reactive, and mostly dependent on external requirements.</td>
+                        <td>Basic QA processes exist but are inconsistently applied.</td>
+                        <td>QA strategy is structured and applied in some cases.</td>
+                        <td>QA is embedded. Continuous improvement driven by audits.</td>
+                        <td>Sector-leading; predictive QA and third-party certification.</td>
+                    </tr>
+                    <tr>
+                        <td class="dim-cell">Procurement</td>
+                        <td class="desc-cell">Strategic, value-driven approach supporting policy objectives.</td>
+                        <td>Procurement is basic; no resources for procurement strategy.</td>
+                        <td>Some consideration of energy performance in procurement.</td>
+                        <td>Established procurement strategy for small-scale delivery.</td>
+                        <td>Strategic procurement is embedded. Partnerships used for scale.</td>
+                        <td>Pioneers innovative models that drive sector transformation.</td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="3" class="cat-org">Organisational Capability</td>
+                        <td class="dim-cell">Leadership & Gov</td>
+                        <td class="desc-cell">Dedicated team with clear leadership and defined roles.</td>
+                        <td>No dedicated leadership or governance structure.</td>
+                        <td>Roles/responsibilities emerging. Informal tracking of progress.</td>
+                        <td>Clear leadership and governance structure in place.</td>
+                        <td>Governance is embedded. Team has authority and resources.</td>
+                        <td>Champions PH/ULE at strategic level; shaping culture.</td>
+                    </tr>
+                    <tr>
+                        <td class="dim-cell">Training & Skills</td>
+                        <td class="desc-cell">Ability to identify and support structured training programs.</td>
+                        <td>No or low level of knowledge. Minimal investment in training.</td>
+                        <td>Basic awareness and informal learning; limited in scope.</td>
+                        <td>Team has PH/ULE experience. Structured training in place.</td>
+                        <td>Knowledgeable/experienced team. Active investment in skill-building.</td>
+                        <td>Co-develops training with partners to lead sector-wide skills.</td>
+                    </tr>
+                    <tr>
+                        <td class="dim-cell">Stakeholder Eng.</td>
+                        <td class="desc-cell">Ensuring strategic and operational backing for implementation.</td>
+                        <td>Limited or reactive engagement.</td>
+                        <td>Initial efforts to engage stakeholders.</td>
+                        <td>Stakeholder engagement is structured and ongoing.</td>
+                        <td>Strong partnerships and co-ownership. Active contributions.</td>
+                        <td>Co-creates strategies; builds alliances influencing sector adoption.</td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="2" class="cat-process">Process Maturity</td>
+                        <td class="dim-cell">Post Occupancy</td>
+                        <td class="desc-cell">Structured plans for Soft Landings framework and tenant education.</td>
+                        <td>No formal post-occupancy strategy. Limited engagement.</td>
+                        <td>Basic handover support; limited tenant feedback collection.</td>
+                        <td>Structured Soft Landings plan; some liaison processes in place.</td>
+                        <td>Clear engagement strategy; proactive education and feedback.</td>
+                        <td>Fully integrated post-occupancy framework; sector-leading.</td>
+                    </tr>
+                    <tr>
+                        <td class="dim-cell">Monitoring</td>
+                        <td class="desc-cell">Enable continuous improvement through feedback loops (POE/real-time).</td>
+                        <td>No structured monitoring. Performance data not collected.</td>
+                        <td>Some tools used in isolated projects. Data is limited.</td>
+                        <td>POE and real-time monitoring implemented across projects.</td>
+                        <td>Uses centralised digital systems and pattern books.</td>
+                        <td>Leads in data-driven POE. Analytics inform sector learning.</td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="2" class="cat-supply">Supply Chain Readiness</td>
+                        <td class="dim-cell">Engagement</td>
+                        <td class="desc-cell">Influencing suppliers' willingness to deliver PH/ULE projects.</td>
+                        <td>Not engaged with supply chain; minimal influence.</td>
+                        <td>Some dialogue; limited influence on understanding.</td>
+                        <td>Actively engages suppliers with PH/ULE requirements.</td>
+                        <td>Builds strategic relationships; suppliers are aligned.</td>
+                        <td>Suppliers co-drive innovation and promote adoption.</td>
+                    </tr>
+                    <tr>
+                        <td class="dim-cell">Joint Innovation</td>
+                        <td class="desc-cell">Capacity to innovate in methods, materials, and prefabrication.</td>
+                        <td>No innovation encouraged; conventional approaches dominate.</td>
+                        <td>Some interest; limited access to advanced components.</td>
+                        <td>Supports suppliers in adopting improved methods.</td>
+                        <td>Incentivises innovation in prefabrication and efficiency.</td>
+                        <td>Co-creates new solutions/prototypes with suppliers.</td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="2" class="cat-integration">Integration and Scalability</td>
+                        <td class="dim-cell">SC Integration</td>
+                        <td class="desc-cell">Align procurement and delivery through coordinated frameworks (ECI).</td>
+                        <td>Minimal coordination; operate in isolation.</td>
+                        <td>Some coordination; ECI is rare or informal.</td>
+                        <td>Partially aligned; ECI used in some projects.</td>
+                        <td>Coordinated frameworks in place; strong partnerships.</td>
+                        <td>Leads in integrated delivery; sector-leading standard tools.</td>
+                    </tr>
+                    <tr>
+                        <td class="dim-cell">Scalability</td>
+                        <td class="desc-cell">Scaling up from pilots to multiple consistent projects.</td>
+                        <td>Not delivered any PH/ULE project.</td>
+                        <td>Delivers isolated projects; ad hoc and reactive.</td>
+                        <td>Begins to replicate pilot success. Planning emerging.</td>
+                        <td>Capable of delivering multiple projects reliably.</td>
+                        <td>Expanding capacity systematically; setting benchmarks.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

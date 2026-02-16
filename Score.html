@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOCUS Maturity Results</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+        .results-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        h1 {
+            color: #2d6a4f;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+        .chart-wrapper {
+            position: relative;
+            height: 600px;
+            margin-bottom: 30px;
+        }
+        .total-box {
+            display: flex;
+            justify-content: space-around;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+        }
+        .score-item { text-align: center; }
+        .score-val { font-size: 1.5rem; font-weight: 800; display: block; }
+        .score-label { font-size: 0.9rem; color: #666; text-transform: uppercase; }
+        .now-text { color: #76b041; }
+        .future-text { color: #f77f00; }
+    </style>
+</head>
+<body>
+
+<div class="results-card">
+    <h1>PHOCUS Maturity Assessment Results</h1>
+    
+    <div class="chart-wrapper">
+        <canvas id="radarChart"></canvas>
+    </div>
+
+    <div class="total-box">
+        <div class="score-item">
+            <span class="score-label">Current Maturity Index</span>
+            <span class="score-val now-text">2.741</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Target Maturity Index</span>
+            <span class="score-val future-text">3.514</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    const ctx = document.getElementById('radarChart').getContext('2d');
+    
+    const labels = [
+        'Policy', 'Funding', 'Delivery strategy', 'Quality assurance strategy',
+        'Procurement strategy', 'Leadership & governance', 'Culture & collaboration',
+        'Training & skills development', 'Financial analysis capability',
+        'Stakeholder engagement', 'Process documentation', 'Project management',
+        'Risk appetite and management', 'Post occupancy management',
+        'Feedback & iteration mechanisms', 'Supply Chain Appetite / Market Readiness',
+        'Supplier Training/Certification & Skills Development', 'Construction innovation',
+        'Supply chain integration', 'Scalability & market growth'
+    ];
+
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Now Weighted',
+            data: [0.196, 0.057, 0.257, 0.200, 0.201, 0.065, 0.114, 0.113, 0.100, 0.090, 0.116, 0.093, 0.107, 0.155, 0.113, 0.251, 0.226, 0.108, 0.074, 0.107],
+            fill: true,
+            backgroundColor: 'rgba(118, 176, 65, 0.2)',
+            borderColor: '#76b041',
+            pointBackgroundColor: '#76b041',
+            pointBorderColor: '#fff',
+            tension: 0.2
+        }, {
+            label: 'Future Weighted',
+            data: [0.326, 0.170, 0.051, 0.160, 0.161, 0.195, 0.170, 0.169, 0.199, 0.135, 0.233, 0.187, 0.213, 0.207, 0.226, 0.151, 0.136, 0.065, 0.147, 0.213],
+            fill: true,
+            backgroundColor: 'rgba(247, 127, 0, 0.2)',
+            borderColor: '#f77f00',
+            pointBackgroundColor: '#f77f00',
+            pointBorderColor: '#fff',
+            tension: 0.2
+        }]
+    };
+
+    new Chart(ctx, {
+        type: 'radar',
+        data: data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: { display: true },
+                    suggestedMin: 0,
+                    suggestedMax: 0.35,
+                    ticks: {
+                        stepSize: 0.05,
+                        backdropColor: 'transparent'
+                    },
+                    pointLabels: {
+                        font: { size: 11, weight: '600' }
+                    }
+                }
+            },
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+</script>
+</body>
+</html>
